@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D1F5A94192655EE002845BB"
-               BuildableName = "hello-myo"
+               BuildableName = "Myo-pi"
                BlueprintName = "Myo-pi"
                ReferencedContainer = "container:Myo-pi.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D1F5A94192655EE002845BB"
-            BuildableName = "hello-myo"
+            BuildableName = "Myo-pi"
             BlueprintName = "Myo-pi"
             ReferencedContainer = "container:Myo-pi.xcodeproj">
          </BuildableReference>
@@ -52,7 +52,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D1F5A94192655EE002845BB"
-            BuildableName = "hello-myo"
+            BuildableName = "Myo-pi"
             BlueprintName = "Myo-pi"
             ReferencedContainer = "container:Myo-pi.xcodeproj">
          </BuildableReference>
@@ -70,7 +70,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D1F5A94192655EE002845BB"
-            BuildableName = "hello-myo"
+            BuildableName = "Myo-pi"
             BlueprintName = "Myo-pi"
             ReferencedContainer = "container:Myo-pi.xcodeproj">
          </BuildableReference>
