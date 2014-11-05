@@ -1,0 +1,126 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="js/three.js"></script>
+    <script src="js/VRRenderer.js"></script>
+</head>
+<body>
+
+<div style="position: fixed; top: 8px; left: 8px; color: white">Hit the F key to engage VR rendering</div>
+<div id="container"></div>
+<script>
+
+    "use strict";
+
+    var camera, scene;
+    var renderCanvas, renderer, vrrenderer;
+    var vrHMD, vrHMDSensor;
+    var leftWebcam, leftWebcamImage, leftImageContext, leftImageTexture;
+
+    var pennappsOccWidth = 1600;
+    var pennappsOccHeight = 900;
+
+    window.addEventListener("load", function () {
+        if (navigator.getVRDevices) {
+            navigator.getVRDevices().then(vrDeviceCallback);
+        } else if (navigator.mozGetVRDevices) {
+            navigator.mozGetVRDevices(vrDeviceCallback);
+        }
+    }, false);
+
+    window.addEventListener("keypress", function (e) {
+        if (e.charCode == 'f'.charCodeAt(0)) {
+            if (renderCanvas.mozRequestFullScreen) {
+                renderCanvas.mozRequestFullScreen({
+                    vrDisplay: vrHMD
+                });
+            } else if (renderCanvas.webkitRequestFullscreen) {
+                renderCanvas.webkitRequestFullscreen({
+                    vrDisplay: vrHMD,
+                });
+            }
+        }
+    }, false);
+
+    function vrDeviceCallback(vrdevs) {
+        for (var i = 0; i < vrdevs.length; ++i) {
+            if (vrdevs[i] instanceof HMDVRDevice) {
+                vrHMD = vrdevs[i];
+                break;
+            }
+        }
+        for (var i = 0; i < vrdevs.length; ++i) {
+            if (vrdevs[i] instanceof PositionSensorVRDevice &&
+                    vrdevs[i].hardwareUnitId == vrHMD.hardwareUnitId) {
+                vrHMDSensor = vrdevs[i];
+                break;
+            }
+        }
+        initScene();
+        initRenderer();
+        render();
+    }
+
+    function initScene() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(60, 1600 / 900, 0.001, 100);
+        camera.position.z = 2;
+
+        // Webcam video
+        leftWebcam = document.createElement("img");
+        // load the webcam
+        leftWebcam.src = "http://158.130.37.21:8082";
+//        leftWebcam.src = "cool-images-5.jpg";
+
+        leftWebcamImage = document.createElement("canvas");
+        leftWebcamImage.width = 320;
+        leftWebcamImage.height = 240;
+
+        leftImageContext = leftWebcamImage.getContext('2d');
+        // background if no image is present
+        leftImageContext.fillStyle = '#000000';
+        leftImageContext.fillRect(0, 0, leftWebcamImage.width, leftWebcamImage.height);
+
+        leftImageTexture = new THREE.Texture(leftWebcamImage);
+        leftImageTexture.minFilter = THREE.LinearFilter;
+        leftImageTexture.magFilter = THREE.LinearFilter;
+
+        var movieMaterial = new THREE.MeshBasicMaterial({map: leftImageTexture, overdraw: true, side: THREE.DoubleSide});
+        var movieGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
+        var movieScreen = new THREE.Mesh(movieGeometry, movieMaterial);
+        scene.add(movieScreen);
+
+        movieScreen.position.set(0, 0, -10);
+
+        camera.lookAt(movieScreen.position);
+    }
+
+    function initRenderer() {
+        renderer = new THREE.WebGLRenderer({
+            antialias: true
+        });
+        var container = document.getElementById("container");
+        container.appendChild(renderer.domElement);
+        renderer.setClearColor(0x555555);
+        renderer.setSize(1600, 900, false);
+
+        vrrenderer = new THREE.VRRenderer(renderer, vrHMD);
+    }
+
+    function render() {
+        requestAnimationFrame(render);
+
+//        if (leftWebcam.complete) {
+        leftImageContext.drawImage(leftWebcam, 0, 0);
+        if (leftImageTexture)
+            leftImageTexture.needsUpdate = true;
+//        }
+
+        var state = vrHMDSensor.getState();
+        camera.quaternion.set(state.orientation.x, state.orientation.y, state.orientation.z, state.orientation.w);
+
+        vrrenderer.render(scene, camera);
+    }
+</script>
+</body>
+</html>
