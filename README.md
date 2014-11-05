@@ -6,6 +6,6 @@ A virtual presence Raspberry Pi-bot controlled via Myo armband and Oculus Rift.
 
 Basic code to send command from Myo armband to the server hosted by Pi.
 
-<h2>Occulus interfacing</h2>
+<h2>Oculus interfacing</h2>
 
 Basic code to render video feed from a webpage onto Occulus screen using three.js and VRRenderer.js.
