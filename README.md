@@ -14,6 +14,6 @@ Basic code to render video feed from a webpage onto Oculus screen using three.js
 
 Motion package was used to stream the video from the webcams attached to Raspberry Pi 1 to its own IP address. The video was accessed and streamed onto the Oculus headset directly.
 
-<h2>Python server on Pi-bot (No. 2) controlling motors</h2>
+<h2>Python server on Pi (No. 2) controlling motors</h2>
 
 Basic Python server accepting client connection from Myo armband followed by instructions and actuating the motors of the PiBot accordingly.
