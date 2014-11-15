@@ -1,0 +1,7 @@
+#! /usr/bin/python
+import pennapprobot
+import time
+
+for i in range(75):
+  pennapprobot.move_forward()
+  
